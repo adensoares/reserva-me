@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-    # image project
+    # Laravel Application
     app:
         build:
             context: .
@@ -10,12 +10,10 @@ services:
         working_dir: /var/www/
         volumes:
             - ./:/var/www
-        depends_on:
-            - redis
         networks:
             - laravel
 
-    # nginx
+    # Nginx Service
     nginx:
         image: nginx:alpine
         restart: unless-stopped
@@ -27,38 +25,18 @@ services:
         networks:
             - laravel
 
-    # db mysql
+    # PostgreSQL Database
     db:
-        image: mysql:5.7.22
+        image: postgres:latest
         restart: unless-stopped
         environment:
-            MYSQL_DATABASE: ${DB_DATABASE:-laravel}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
-            MYSQL_PASSWORD: ${DB_PASSWORD:-userpass}
-            MYSQL_USER: ${DB_USERNAME:-username}
+            POSTGRES_DB: ${DB_DATABASE:-laravel}
+            POSTGRES_USER: ${DB_USERNAME:-username}
+            POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
         volumes:
-            - ./.docker/mysql/dbdata:/var/lib/mysql
+            - ./.docker/postgres/dbdata:/var/lib/postgresql/data
         ports:
-            - "3388:3306"
-        networks:
-            - laravel
-
-    # queue
-    queue:
-        image: especializati/laravel9-app
-        restart: unless-stopped
-        command: "php artisan queue:work"
-        volumes:
-            - ./:/var/www
-        depends_on:
-            - redis
-            - app
-        networks:
-            - laravel
-
-    # redis
-    redis:
-        image: redis:latest
+            - "5432:5432"
         networks:
             - laravel
 

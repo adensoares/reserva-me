@@ -1,68 +1,64 @@
+# Reserva.me - Sistema de Reservas para Restaurantes
 
-# Setup Docker Laravel 10 com PHP 8.1
-[Assine a Academy, e Seja VIP!](https://academy.especializati.com.br)
+O Reserva.me é um sistema de reservas para restaurantes construído com Laravel e Vue.js.
 
-### Passo a passo
-Clone Repositório
+## Instruções de instalação
+
+### Clone o repositório
+
 ```sh
-git clone -b laravel-10-com-php-8.1 https://github.com/especializati/setup-docker-laravel.git app-laravel
-```
-```sh
-cd app-laravel
+git clone https://github.com/adensoares/reserva-me.git
+cd reserva-me
 ```
 
+### Configure o ambiente
 
-Crie o Arquivo .env
+Copie o arquivo .env.example para .env:
+
 ```sh
 cp .env.example .env
 ```
 
+Atualize as variáveis de ambiente no arquivo .env para corresponder ao seu ambiente de desenvolvimento:
 
-Atualize as variáveis de ambiente do arquivo .env
 ```dosini
-APP_NAME=EspecializaTi
+APP_NAME=Reserva.me
 APP_URL=http://localhost:8989
 
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=nome_que_desejar_db
-DB_USERNAME=nome_usuario
-DB_PASSWORD=senha_aqui
-
-CACHE_DRIVER=redis
-QUEUE_CONNECTION=redis
-SESSION_DRIVER=redis
-
-REDIS_HOST=redis
-REDIS_PASSWORD=null
-REDIS_PORT=6379
+DB_CONNECTION=pgsql
+DB_HOST=db
+DB_PORT=5432
+DB_DATABASE=seu_db
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
 ```
 
+### Inicie os containers Docker
 
-Suba os containers do projeto
 ```sh
 docker-compose up -d
 ```
 
+### Acesse o container da aplicação
 
-Acesse o container app
 ```sh
 docker-compose exec app bash
 ```
 
+### Instale as dependências do projeto
 
-Instale as dependências do projeto
+Dentro do container, instale as dependências do Laravel com o composer:
+
 ```sh
 composer install
 ```
 
+### Gere a chave de aplicação
 
-Gere a key do projeto Laravel
+Ainda dentro do container, gere a chave de aplicação do Laravel:
+
 ```sh
 php artisan key:generate
 ```
 
-
-Acesse o projeto
-[http://localhost:8989](http://localhost:8989)
+Agora, você deve ser capaz de acessar o sistema de reservas em http://localhost:8989.
