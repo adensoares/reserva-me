@@ -6,18 +6,26 @@
   
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="px-4 py-6 sm:px-0">
-          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+
+        <div v-if="reservations.length === 0">
+          <div class="bg-white text-center rounded-lg shadow-md p-6">
+            <p class="text-gray-500 text-lg">Nenhuma reserva agendada no momento.</p>
+            <p>:(</p>
+          </div>
+        </div>
+
+          <div v-else class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
+              <thead class="bg-gray-50 text-center">
                 <tr>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Número da Mesa</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assentos</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hora</th>
+                  <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                  <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Número da Mesa</th>
+                  <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Assentos</th>
+                  <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
+                  <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Hora</th>
                 </tr>
               </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+              <tbody class="bg-white text-center divide-y divide-gray-200">
                 <tr v-for="reservation in reservations" :key="reservation.id">
                   <td class="px-6 py-4 whitespace-nowrap">{{ reservation.user ? reservation.user.name : '' }}</td>
                   <td class="px-6 py-4 whitespace-nowrap">{{ reservation.table ? reservation.table.number : '' }}</td>
@@ -45,7 +53,7 @@
     },
     pageTitle: {
       type: String,
-      default: 'Dashboard',
+      default: 'Painel de Controle',
     },
   });
   

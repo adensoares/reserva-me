@@ -30,6 +30,7 @@ Route::get('/', function () {
     }
 });
 
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified', 'is_admin'])
     ->name('dashboard');
@@ -42,16 +43,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
-    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
-    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-    Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
-    Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit'])->name('reservations.edit');
-    Route::put('/reservations/{reservation}', [ReservationController::class, 'update'])->name('reservations.update');
-    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
-    
-    Route::get('/admin/reservations', [ReservationController::class, 'admin'])->name('reservations.admin');
-});
+Route::middleware('auth', 'is_not_admin')->group(function () {
+    Route::resource('reservations', 'App\Http\Controllers\ReservationController');
+    });
 
 require __DIR__.'/auth.php';

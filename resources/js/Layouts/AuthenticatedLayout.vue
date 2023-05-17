@@ -23,10 +23,10 @@ const showingNavigationDropdown = ref(false);
             <!-- Sidebar -->
             <nav class="space-y-2">
                 <div>
-                    <Link :href="route('dashboard')" class="block py-2 px-6 m-4 hover:bg-gray-200 rounded ">Painel de Controle</Link>
-                    <hr class="mx-4">
-                    <Link :href="route('reservations.index')" class="block py-2 px-6 m-4  hover:bg-gray-200 rounded">Reservas</Link>
-                    <Link :href="route('reservations.index')" class="block py-2 px-6 m-4 hover:bg-gray-200 rounded">Usuários</Link>
+                    <div v-if="$page.props.auth.user.is_admin">
+                        <Link :href="route('dashboard')" class="block py-2 px-6 m-4 hover:bg-gray-200 rounded ">Painel de Controle</Link>
+                    </div>
+                    <Link :href="route('reservations.index')" v-if="!$page.props.auth.user.is_admin" class="block py-2 px-6 m-4  hover:bg-gray-200 rounded">Reservas</Link>
                 </div>
 
                 <div class="mt-auto"> 

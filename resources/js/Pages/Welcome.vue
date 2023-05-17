@@ -1,6 +1,6 @@
 <template>
     <GuestLayout>
-        <Head title="Bem-vindo ao Reserva.me" />
+        <Head :title="pageTitle" />
 
         <div
             class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg"
@@ -37,5 +37,9 @@ defineProps({
     canRegister: {
         type: Boolean,
     },
+    pageTitle: {
+    type: String,
+    default: 'Boas Vindas',
+  },
 });
 </script>

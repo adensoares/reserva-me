@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Middleware;
-use Illuminate\Support\Facades\Auth;
 
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
-class IsAdmin
+class IsNotAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,10 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (! Auth::user()->is_admin) {
-            return redirect('/reservations');
+        if (Auth::check() && Auth::user()->is_admin) {
+            return redirect('/dashboard');
         }
-    
+
         return $next($request);
     }
 }
