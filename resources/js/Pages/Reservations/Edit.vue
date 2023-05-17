@@ -2,11 +2,44 @@
   <AuthenticatedLayout>
     <h1 class="text-2xl pb-4 font-semibold text-gray-900">Editar Reserva</h1>
 
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="px-4 py-6 sm:px-0">
         <div class="shadow overflow-hidden sm:rounded-md">
           <div class="px-4 py-5 bg-white sm:p-6">
-            <!-- Formulário de edição de reserva -->
+            <form @submit.prevent="submit">
+              <h2 class="mb-4 text-lg font-medium text-gray-700">Escolha uma mesa</h2>
+              
+              <!-- Tables -->
+              <div class="grid grid-cols-5 gap-4 mb-4">
+                <div v-for="table in props.tables" :key="table.id" class="border-2 p-4 rounded-lg cursor-pointer" :class="{'border-indigo-500': form.table_id === table.id, 'border-gray-300': form.table_id !== table.id}" @click="selectTable(table.id)">
+                  <p class="text-center text-xl font-semibold">{{ table.number }}</p>
+                  <p class="text-center text-sm text-gray-500">Assentos: {{ table.seats }}</p>
+                </div>
+              </div>
+              
+              <div class="mb-4">
+                <InputLabel for="date" value="Data" />
+                <input type="date" v-model="form.date" id="date" required class="mt-1 block w-full">
+                <InputError class="mt-2" :message="form.errors.date" />
+              </div>
+
+              <div class="mb-4">
+                <InputLabel for="reservation_time" value="Hora da Reserva" />
+                <input type="time" v-model="form.reservation_time" id="reservation_time" required class="mt-1 block w-full">
+                <InputError class="mt-2" :message="form.errors.reservation_time" />
+              </div>
+
+               <!-- Campo oculto para enviar o user_id -->
+               <input type="hidden" v-model="form.user_id">
+
+               <div class="mb-4" v-if="form.errors.overlap">
+                  <p class="text-red-500">{{ form.errors.overlap }}</p>
+              </div>
+
+              <PrimaryButton class="" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                Atualizar Reserva
+              </PrimaryButton>
+            </form>
           </div>
         </div>
       </div>
@@ -15,14 +48,39 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { usePage, useForm } from '@inertiajs/vue3';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
 
 defineProps({
-  // Defina as propriedades necessárias para o formulário de edição de reserva
+  tables: {
+    type: Array,
+    required: true,
+  },
+  reservation: {
+    type: Object,
+    required: true,
+  },
 });
 
-// Adicione os métodos necessários para manipular a submissão do formulário
+const { props } = usePage();
+const form = useForm({
+  user_id: props.reservation.user_id,
+  table_id: props.reservation.table_id,
+  date: props.reservation.date,
+  reservation_time: props.reservation.reservation_time,
+});
+
+const selectTable = (tableId) => {
+  form.table_id = tableId;
+};
+
+const submit = () => {
+  form.put(route('reservations.update', props.reservation.id));
+};
 </script>
 
 <style>

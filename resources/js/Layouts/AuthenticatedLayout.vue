@@ -14,7 +14,7 @@ const showingNavigationDropdown = ref(false);
     <div class="flex h-screen bg-gray-200">
         <div class="w-64 shadow bg-white m-4 rounded">
             <!-- Logo -->
-            <Link href="/dashboard">
+            <Link :href="route('reservations.index')">
                 <div class="p-6 flex items-center ">
                     <h1 class="text-3xl font-semibold">Reserva<span style="color: dodgerblue;">.me</span></h1>
                 </div>

@@ -27,7 +27,20 @@ class ReservationController extends Controller
 
     public function create()
     {
+        // Verificar se o usuário já possui uma reserva ativa
+        $hasActiveReservation = Reservation::where('user_id', Auth::id())
+            ->where('reservation_time', '>=', now())
+            ->exists();
+
+        // Redirecionar se o usuário já tiver uma reserva ativa
+        if ($hasActiveReservation) {
+            return redirect()->route('reservations.index')
+                ->with('error', 'Você já possui uma reserva ativa.');
+        }
+
+        // Obter as mesas disponíveis para reserva
         $tables = Table::orderBy('number')->get();
+
         return Inertia::render('Reservations/Create', ['tables' => $tables]);
     }
 
@@ -80,15 +93,29 @@ class ReservationController extends Controller
 
     public function edit(Reservation $reservation)
     {
-        return Inertia::render('Reservations/Edit', ['reservation' => $reservation]);
+        $tables = Table::orderBy('number')->get();
+    
+        // Formatar a hora da reserva
+        $reservation->reservation_time = Carbon::createFromFormat('Y-m-d H:i:s', $reservation->reservation_time)->format('H:i');
+    
+        // Formatar a data da reserva
+        $reservation->date = Carbon::parse($reservation->reservation_time)->format('Y-m-d');
+    
+        return Inertia::render('Reservations/Edit', [
+            'reservation' => $reservation,
+            'tables' => $tables,
+        ]);
     }
+    
+    
+    
 
     public function update(Request $request, Reservation $reservation)
     {
-        $validated = $request->validate([
+                $validated = $request->validate([
             'user_id' => 'required|integer',
             'table_id' => 'required|integer',
-            'start_time' => [
+            'reservation_time' => [
                 'required',
                 'date_format:H:i',
                 function ($attribute, $value, $fail) {
@@ -103,18 +130,19 @@ class ReservationController extends Controller
                 'date',
                 function ($attribute, $value, $fail) {
                     $dayOfWeek = Carbon::createFromFormat('Y-m-d', $value)->dayOfWeek;
-                    if ($dayOfWeek === Carbon::SUNDAY) {
+                    if ($dayOfWeek == Carbon::SUNDAY) {
                         $fail('Reservas não são permitidas aos domingos.');
                     }
                 },
             ],
         ]);
     
-        $reservationDateTime = Carbon::createFromFormat('Y-m-d H:i', $validated['date'] . ' ' . $validated['start_time']);
+        $reservationDateTime = Carbon::createFromFormat('Y-m-d H:i', $validated['date'].' '.$validated['reservation_time']);
     
         if (Reservation::overlaps($validated['table_id'], $reservationDateTime)) {
-            $errors = new MessageBag(['overlap' => 'Esta reserva se sobrepõe a uma reserva existente.']);
-            return redirect()->route('reservations.index')->withErrors($errors);
+            return redirect()->route('reservations.create')
+                             ->withErrors(['overlap' => 'Esta reserva se sobrepõe a uma reserva existente.'])
+                             ->withInput();
         }
     
         $validated['reservation_time'] = $reservationDateTime;
@@ -141,6 +169,7 @@ class ReservationController extends Controller
             'reservations' => $reservations
         ]);
     }
+    
 }
 
 

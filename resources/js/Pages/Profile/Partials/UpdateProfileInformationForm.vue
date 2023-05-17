@@ -19,6 +19,7 @@ const user = usePage().props.auth.user;
 const form = useForm({
     name: user.name,
     email: user.email,
+    is_admin: user.is_admin,
 });
 </script>
 
@@ -62,6 +63,21 @@ const form = useForm({
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+
+            <div>
+                <div class="flex items-center">
+                    <InputLabel for="is_admin" value="Administrator" />
+    
+                    <input
+                        id="is_admin"
+                        type="checkbox"
+                        class="ml-2"
+                        v-model="form.is_admin"
+                    />
+                </div>
+
+                <InputError class="mt-2" :message="form.errors.is_admin" />
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
