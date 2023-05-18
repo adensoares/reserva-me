@@ -2,7 +2,7 @@
     <Head :title="pageTitle" />
   
     <AuthenticatedLayout>
-      <h1 class="text-2xl pb-4 font-semibold text-gray-900">{{ pageTitle }}</h1>
+      <h1 class="text-2xl px-4 font-semibold text-gray-900">{{ pageTitle }}</h1>
   
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="px-4 py-6 sm:px-0">
@@ -14,7 +14,7 @@
           </div>
         </div>
 
-          <div v-else class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <div v-else class="shadow overflow-x-scroll xl:overflow-hidden border-b border-gray-200 rounded">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50 text-center">
                 <tr>

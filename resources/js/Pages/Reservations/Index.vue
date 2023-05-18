@@ -25,7 +25,7 @@
         </div>
 
         <div v-else>
-          <div class="shadow sm:overflow-x-scroll xl:overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <div class="shadow sm:overflow-x-scroll xl:overflow-hidden border-b border-gray-200 rounded">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50 text-center">
                 <tr>

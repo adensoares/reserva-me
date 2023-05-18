@@ -23,14 +23,14 @@ defineProps({
     <Head :title="pageTitle" />
 
     <AuthenticatedLayout>
-        <h1 class="text-2xl pb-4 font-semibold text-gray-900">{{pageTitle}}</h1>
+        <h1 class="text-2xl px-4 pb-4 font-semibold text-gray-900">{{pageTitle}}</h1>
         
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Profile</h2>
         </template>
 
-            <div class="max-w-7xl mx-auto  space-y-4">
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+            <div class="max-w-7xl mx-auto p-4 space-y-4">
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded">
                     <UpdateProfileInformationForm
                         :must-verify-email="mustVerifyEmail"
                         :status="status"
@@ -38,11 +38,11 @@ defineProps({
                     />
                 </div>
 
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded">
                     <UpdatePasswordForm class="max-w-xl" />
                 </div>
 
-                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+                <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded">
                     <DeleteUserForm class="max-w-xl" />
                 </div>
             </div>
