@@ -50,7 +50,8 @@ class ReservationController extends Controller
                 'required',
                 'date_format:H:i',
                 function ($attribute, $value, $fail) {
-                    $startHour = Carbon::createFromFormat('H:i', $value)->hour;
+                    // $startHour = Carbon::createFromFormat('H:i', $value)->hour;
+                    $startHour = Carbon::parse($value)->hour;
                     if ($startHour < 18) {
                         $fail('As reservas só podem começar a partir das 18:00.');
                     }

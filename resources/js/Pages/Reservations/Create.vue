@@ -1,8 +1,9 @@
 <template>
+  <Head :title="pageTitle" />
   <AuthenticatedLayout>
-    <h1 class="text-2xl pb-4 font-semibold text-gray-900">Criar Reserva</h1>
+    <h1 class="text-2xl px-4 font-semibold text-gray-900">{{ pageTitle }}</h1>
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-4">
       <div class="px-4 py-6 sm:px-0">
         <div class="shadow overflow-hidden sm:rounded-md">
           <div class="px-4 py-5 bg-white sm:p-6">
@@ -10,7 +11,7 @@
               <h2 class="mb-4 text-lg font-medium text-gray-700">Escolha uma mesa</h2>
               
               <!-- Tables -->
-              <div class="grid grid-cols-5 gap-4 mb-4">
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-4">
                 <TableCard
                   v-for="table in tables"
                   :key="table.id"
@@ -51,8 +52,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { usePage, useForm } from '@inertiajs/vue3';
+import { Head, usePage, useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
@@ -65,6 +65,10 @@ defineProps({
   tables: {
     type: Array,
     required: true,
+  },
+  pageTitle: {
+    type: String,
+    default: 'Criar Reserva',
   },
 });
 
@@ -89,7 +93,6 @@ const submit = () => {
 </script>
 
 <style>
-/* Adicione aqui seu CSS personalizado se necessário */
 </style>
 
   

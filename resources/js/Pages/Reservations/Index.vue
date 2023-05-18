@@ -2,7 +2,7 @@
   <Head :title="pageTitle" />
 
   <AuthenticatedLayout>
-    <h1 class="text-2xl pb-4 font-semibold text-gray-900">{{ pageTitle }}</h1>
+    <h1 class="text-2xl px-4 font-semibold text-gray-900">{{ pageTitle }}</h1>
 
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="px-4 py-6 sm:px-0">
@@ -25,7 +25,7 @@
         </div>
 
         <div v-else>
-          <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <div class="shadow sm:overflow-x-scroll xl:overflow-hidden border-b border-gray-200 sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50 text-center">
                 <tr>
@@ -36,7 +36,7 @@
                   <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
                 </tr>
               </thead>
-              <tbody class="bg-white text-center divide-y divide-gray-200">
+              <tbody class="bg-white text-center divide-y divide-gray-200 ">
                 <tr v-for="reservation in reservations" :key="reservation.id">
                   <td class="px-6 py-4 whitespace-nowrap">{{ reservation.table.number }}</td>
                   <td class="px-6 py-4 whitespace-nowrap">{{ reservation.table.seats }}</td>
@@ -51,10 +51,9 @@
                     Editar Reserva
                     </Link>
                     <Link
-                      
                       :href="route('reservations.destroy', reservation.id)"
                       method="delete"
-                      onclick="return confirm('Are you sure?')"
+                      onclick="return confirm('Você tem certeza?')"
                       class="inline-flex items-center px-4 py-2 bg-red-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition ease-in-out duration-150"
                     >
                       Cancelar Reserva
@@ -74,8 +73,8 @@
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link } from '@inertiajs/vue3';
+
 
 defineProps({
   reservations: {
@@ -108,5 +107,4 @@ const reservationTime = (dateTimeString) => formatDateAndTime(dateTimeString).ti
 </script>
 
 <style>
-/* Adicione aqui seu CSS personalizado se necessário */
 </style>

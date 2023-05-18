@@ -59,8 +59,8 @@ const submit = () => {
                     <InputError class="mt-2" :message="form.errors.email" />
                 </div>
     
-                <div class="flex items-center justify-end mt-4">
-                    <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <div class="flex justify-end block mt-4">
+                    <PrimaryButton class="w-full sm:w-auto justify-center" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Redefinir Senha
                     </PrimaryButton>
                 </div>

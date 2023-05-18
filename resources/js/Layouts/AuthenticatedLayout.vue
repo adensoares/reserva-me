@@ -1,46 +1,67 @@
 <script setup>
-import { ref } from 'vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import { ref, onMounted  } from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+
+const showSidebar = ref(window.innerWidth > 640); 
+
+onMounted(() => {
+    window.addEventListener('resize', () => {
+        showSidebar.value = window.innerWidth > 640; 
+    });
+});
+
 </script>
 
+<style>
+.logo span {
+    color: dodgerblue;
+}
+</style>
+
 <template>
-    <div class="flex h-screen bg-gray-200">
-        <div class="w-64 shadow bg-white m-4 rounded">
-            <!-- Logo -->
-            <Link :href="route('reservations.index')">
-                <div class="p-6 flex items-center ">
-                    <h1 class="text-3xl font-semibold">Reserva<span style="color: dodgerblue;">.me</span></h1>
-                </div>
-            </Link>
+    <div class="flex flex-col h-screen sm:flex-row bg-gray-200">
+            <div class="fixed m-4 mr-0 inset-0 flex z-40 bg-gray-600 bg-opacity-50 sm:static sm:bg-transparent" v-show="showSidebar" @click.self="showSidebar = false">
+                <aside class="fixed sm:relative w-64 h-full bg-white shadow rounded overflow-y-auto transition-transform transform translate-x-0 sm:translate-x-0 sm:block" :class="showSidebar ? 'translate-x-0 sm:block' : '-translate-x-full sm:hidden'" style="transition: transform .3s ease-out">
+                    <!-- Logo -->
+                    <Link :href="route('reservations.index')">
+                        <div class="p-6 flex items-center ">
+                            <h1 class="logo text-3xl font-semibold">Reserva<span>.me</span></h1>
+                        </div>
+                    </Link>
 
-            <!-- Sidebar -->
-            <nav class="space-y-2">
-                <div>
-                    <div v-if="$page.props.auth.user.is_admin">
-                        <Link :href="route('dashboard')" class="block py-2 px-6 m-4 hover:bg-gray-200 rounded ">Painel de Controle</Link>
-                    </div>
-                    <Link :href="route('reservations.index')" v-if="!$page.props.auth.user.is_admin" class="block py-2 px-6 m-4  hover:bg-gray-200 rounded">Reservas</Link>
-                </div>
+                    <!-- Sidebar -->
+                    <nav class="space-y-2">
+                        <div>
+                            <div v-if="$page.props.auth.user.is_admin">
+                                <Link :href="route('dashboard')" class="block py-2 px-6 m-4 hover:bg-gray-200 rounded ">Painel de Controle</Link>
+                            </div>
+                            <Link :href="route('reservations.index')" v-if="!$page.props.auth.user.is_admin" class="block py-2 px-6 m-4  hover:bg-gray-200 rounded">Reservas</Link>
+                        </div>
 
-                <div class="mt-auto"> 
-                    <hr class="mx-4">
-                    <Link :href="route('logout')" method="post" class="block py-2 px-6 m-4 hover:bg-gray-200 rounded">Sair</Link>
-                </div>
-            </nav>
-        </div>
+                        <div class="mt-auto"> 
+                            <hr class="mx-4">
+                            <Link :href="route('logout')" method="post" class="block py-2 px-6 m-4 hover:bg-gray-200 rounded">Sair</Link>
+                        </div>
+                    </nav>
+                </aside>
+            </div>            
 
         <div class="flex flex-col flex-1 overflow-hidden">
             <!-- Topbar -->
-            <header class="flex items-center justify-between p-6 m-4 ml-0 shadow bg-white rounded">
+            <header class="flex items-center justify-between p-6 m-4 shadow bg-white rounded">
                 <div class="flex items-center space-x-4">
-                    <!-- Aqui você pode adicionar mais conteúdo para o topo, se necessário -->
+                    
+                    <button class="" @click="showSidebar = !showSidebar">
+                        <!-- ícone do menu -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+
                 </div>
 
                 <Dropdown>

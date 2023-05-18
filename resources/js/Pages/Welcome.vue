@@ -9,7 +9,7 @@
                 <h1 class="text-3xl font-bold mb-4">Boas <span style="color: dodgerblue;">Vindas</span></h1>
                 <p class="text-gray-600 mb-6">Reserva.me é a plataforma oficial de reservas do nosso restaurante</p>
 
-                <div v-if="canLogin" class="space-x-4">
+                <div v-if="canLogin" class="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-4 justify-center">
                     
                     <SecondaryButton v-if="canRegister">
                         <Link :href="route('register')" class="block w-full text-center">Cadastre-se</Link>
@@ -38,8 +38,8 @@ defineProps({
         type: Boolean,
     },
     pageTitle: {
-    type: String,
-    default: 'Boas Vindas',
-  },
+        type: String,
+        default: 'Boas Vindas',
+    },
 });
 </script>
