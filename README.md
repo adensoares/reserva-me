@@ -7,7 +7,7 @@ O Reserva.me é um sistema de reservas para restaurantes. O projeto é um desafi
 -   Frontend: HTML, CSS (Tailwind CSS) e JavaScript (Vue.js).
 -   Backend: PHP 8.1, Laravel 10.
 -   Banco de dados: PostgreSQL.
--   Outros: Docker, Laravel Breeze para autenticação.
+-   Outros: Docker, Laravel Breeze para autenticação, Vite para compilação de assets.
 
 ## Requisitos
 
@@ -80,6 +80,18 @@ Dentro do container, instale as dependências do Laravel com o composer:
 
 ```sh
 composer install
+```
+
+### Instale as dependências do Front-end
+
+```sh
+npm install
+```
+
+### Inicie o servidor de desenvolvimento (Vite):
+
+```sh
+npm run dev
 ```
 
 ### Gere a chave de aplicação
